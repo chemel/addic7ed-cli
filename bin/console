@@ -10,9 +10,11 @@ elseif( file_exists(__DIR__.'/../../../autoload.php') ) {
 
 use Symfony\Component\Console\Application;
 use Alc\Addic7edCli\Command\Addic7edCommand;
+use Alc\Addic7edCli\Command\ProxyTestCommand;
 
 $application = new Application();
 
 $application->add(new Addic7edCommand());
+$application->add(new ProxyTestCommand());
 
 $application->run();
