@@ -23,9 +23,18 @@ class FilenameParser
     {
         $this->setFilename($filename);
 
-        $pattern = '/(.+)S(\d{1,2})E(\d{1,2})/i';
+        $patterns = array(
+            '/(.+)S(\d{1,2})E(\d{1,2})/i', // S01E02 format
+            '/(.+)(\d{1,2})x(\d{1,2})/i', // 1x2 format
+        );
 
-        $success = preg_match($pattern, $filename, $matches);
+        foreach ($patterns as $pattern) {
+            $success = preg_match($pattern, $filename, $matches);
+
+            if ($success) {
+                break;
+            }
+        }
 
         if (!$success) {
             return;
