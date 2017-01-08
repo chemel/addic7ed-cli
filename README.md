@@ -24,8 +24,8 @@ addic7ed-cli get Video.S01E01.mkv
 addic7ed-cli get -l English
 
 # Erase existing subtitle (Default: skip)
-addic7ed-cli get -e true
-addic7ed-cli get --erase=true
+addic7ed-cli get -e
+addic7ed-cli get --erase
 
 # Use proxy (Default: none)
 addic7ed-cli get --proxy=socks5://localhost:9050
