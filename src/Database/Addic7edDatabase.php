@@ -83,11 +83,13 @@ class Addic7edDatabase
 
         $results = array();
 
+        $language = strtolower($language);
+
         foreach ($showData as $show) {
-            if ($show->language != $language) {
+            if ($show->episode != $episode) {
                 continue;
             }
-            if ($show->episode != $episode) {
+            if ($language != 'all' && strtolower($show->language) != $language) {
                 continue;
             }
 
