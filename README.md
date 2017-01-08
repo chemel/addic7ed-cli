@@ -30,6 +30,9 @@ addic7ed-cli get --erase
 # Use proxy (Default: none)
 addic7ed-cli get --proxy=socks5://localhost:9050
 
+# Non interactive mode (Download the last subtitle in the list)
+addic7ed-cli get -n
+
 # Show help
 addic7ed-cli get --help
 

@@ -72,7 +72,7 @@ class Addic7edCommand extends Command
                 $id++;
 
                 $table[] = array(
-                    $id,
+                    '#'.$id,
                     $show->season,
                     $show->episode,
                     $show->title,
@@ -124,7 +124,7 @@ class Addic7edCommand extends Command
 
             $url = $urls[$choice];
 
-            $output->writeln('<info>[INFO]</info> Downloading sub: '.$url);
+            $output->writeln('<info>[INFO]</info> Downloading sub #'.$choice.': '.$url);
 
             $request = $client->request('GET', $url);
             $subData = $request->getBody()->getContents();
