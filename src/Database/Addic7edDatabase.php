@@ -38,6 +38,8 @@ class Addic7edDatabase
 
         $searchData = $this->scrapper->search($term);
 
+        if(!isset($searchData->showId)) return;
+
         $showId = $searchData->showId;
 
         return $this->searches[$lowerTerm] = $showId;
@@ -74,6 +76,8 @@ class Addic7edDatabase
     public function find($searchTerm, $language, $season=1, $episode=null)
     {
         $showId = $this->getShowId($searchTerm);
+
+        if(!$showId) return array();
 
         $showData = $this->getShowData($showId, $season);
 
