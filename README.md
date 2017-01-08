@@ -21,11 +21,14 @@ addic7ed-cli get '*.mkv'
 addic7ed-cli get Video.S01E01.mkv
 
 # Change language (Default: French)
-console get -l English
+addic7ed-cli get -l English
 
 # Erase existing subtitle (Default: skip)
-console get -e true
-console get --erase=true
+addic7ed-cli get -e true
+addic7ed-cli get --erase=true
+
+# Use proxy (Default: none)
+addic7ed-cli get --proxy=socks5://localhost:9050
 
 # Show help
 addic7ed-cli get --help

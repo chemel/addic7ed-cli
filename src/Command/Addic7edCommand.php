@@ -23,6 +23,7 @@ class Addic7edCommand extends Command
             ->addArgument('input', InputArgument::OPTIONAL, 'The input file or search pattern.', '/\.(mkv|mp4|webm|avi|mpg|mpeg|wmv|3gp)$/i')
             ->addOption('lang', 'l', InputOption::VALUE_OPTIONAL, 'Language of the subtitle.', 'French')
             ->addOption('erase', 'e', InputOption::VALUE_OPTIONAL, 'Erase existing subtitle.', false)
+            ->addOption('proxy', 'p', InputOption::VALUE_OPTIONAL, 'Use proxy.')
         ;
     }
 
@@ -39,6 +40,9 @@ class Addic7edCommand extends Command
         ;
 
         $client = new HttpClient();
+        if ($input->getOption('proxy')) {
+            $client->setProxy($input->getOption('proxy'));
+        }
         $client = $client->getClient();
 
         $database = new Addic7edDatabase($client);

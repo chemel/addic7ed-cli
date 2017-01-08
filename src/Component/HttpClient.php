@@ -4,6 +4,18 @@ namespace Alc\Addic7edCli\Component;
 
 class HttpClient
 {
+    private $proxy;
+
+    /**
+     * Set proxy
+     *
+     * @param string proxy
+     */
+    public function setProxy($proxy)
+    {
+        $this->proxy = $proxy;
+    }
+
     /**
      * Get HTTP client
      *
@@ -19,6 +31,10 @@ class HttpClient
             // 'connect_timeout' => 15,
             // 'timeout' => 30,
         );
+
+        if ($this->proxy) {
+            $options['proxy'] = $this->proxy;
+        }
 
         return new \GuzzleHttp\Client($options);
     }
