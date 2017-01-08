@@ -20,8 +20,12 @@ addic7ed-cli get
 addic7ed-cli get '*.mkv'
 addic7ed-cli get Video.S01E01.mkv
 
-# Change language
+# Change language (Default: French)
 console get -l English
+
+# Erase existing subtitle (Default: skip)
+console get -e true
+console get --erase=true
 
 # Show help
 addic7ed-cli get --help

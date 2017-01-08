@@ -22,6 +22,7 @@ class Addic7edCommand extends Command
             ->setDescription('Download subtitle from addic7ed')
             ->addArgument('input', InputArgument::OPTIONAL, 'The input file or search pattern.', '/\.(mkv|mp4|webm|avi|mpg|mpeg|wmv|3gp)$/i')
             ->addOption('lang', 'l', InputOption::VALUE_OPTIONAL, 'Language of the subtitle.', 'French')
+            ->addOption('erase', 'e', InputOption::VALUE_OPTIONAL, 'Erase existing subtitle.', false)
         ;
     }
 
@@ -50,7 +51,7 @@ class Addic7edCommand extends Command
             $subFilename = $file->getBasename($file->getExtension()).'srt';
             $subFullpath = $file->getPath().'/'.$subFilename;
 
-            if (file_exists($subFullpath)) {
+            if (!$input->getOption('erase') && file_exists($subFullpath)) {
                 $output->writeln('<info>[INFO]</info> Subtitle exist skipping.');
                 continue;
             }
