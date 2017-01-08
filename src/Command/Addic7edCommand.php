@@ -50,14 +50,14 @@ class Addic7edCommand extends Command
         $language = $input->getOption('lang');
 
         foreach ($finder as $file) {
-            $output->writeln("\n".'<info>[INFO]</info> Filename: '.$file->getFilename());
+            $output->writeln("\n".'<info>[INFO]</> Filename: '.$file->getFilename());
 
             $subBasename = $file->getBasename('.'.$file->getExtension());
             $subFilename = $subBasename.'.srt';
             $subFullpath = $file->getPath().'/'.$subFilename;
 
             if (!$input->getOption('erase') && file_exists($subFullpath)) {
-                $output->writeln('<info>[INFO]</info> Subtitle exist skipping.');
+                $output->writeln('<info>[INFO]</> Subtitle exist skipping.');
                 continue;
             }
 
@@ -66,7 +66,7 @@ class Addic7edCommand extends Command
             $searchTerm = $filenameParser->getTitle();
 
             if (empty($searchTerm)) {
-                $output->writeln('<error>[ERROR]</error> Title not found.');
+                $output->writeln('<error>[ERROR]</> Title not found.');
                 $searchTerm = $io->ask('Enter title:', $subBasename);
             }
 
@@ -95,7 +95,7 @@ class Addic7edCommand extends Command
             }
 
             if (empty($urls)) {
-                $output->writeln('<error>[ERROR]</error> No Subtitle found.');
+                $output->writeln('<error>[ERROR]</> No Subtitle found.');
                 continue;
             }
 
@@ -126,18 +126,18 @@ class Addic7edCommand extends Command
             });
 
             if ($choice == 0) {
-                $output->writeln('<info>[INFO]</info> Skipping.');
+                $output->writeln('<info>[INFO]</> Skipping.');
                 continue;
             }
 
             $url = $urls[$choice];
 
-            $output->writeln('<info>[INFO]</info> Downloading sub #'.$choice.': '.$url);
+            $output->writeln('<info>[INFO]</> Downloading sub #'.$choice.': '.$url);
 
             $request = $client->request('GET', $url);
             $subData = $request->getBody()->getContents();
 
-            $output->writeln('<info>[INFO]</info> Saving to: '.$subFilename);
+            $output->writeln('<info>[INFO]</> Saving to: '.$subFilename);
 
             file_put_contents($subFullpath, $subData);
         }
