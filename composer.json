@@ -1,0 +1,35 @@
+{
+    "name": "alc/addic7ed-cli",
+    "type": "library",
+    "description": "Download subtitles from www.addic7ed.com",
+    "keywords": ["subtitle", "addic7ed", "cli"],
+    "homepage": "https://github.com/chemel/addic7ed-cli",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexis CHEMEL",
+            "homepage": "https://github.com/chemel",
+            "email": "github@chemel.fr"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+        	"Alc\\Addic7edCli\\": "src/"
+        }
+    },
+    "require": {
+        "symfony/console": "^3.2",
+        "guzzlehttp/guzzle": "^6.2",
+        "symfony/dom-crawler": "^3.2",
+        "symfony/css-selector": "^3.2",
+        "symfony/finder": "^3.2"
+    },
+    "bin": [
+        "bin/addic7ed-cli"
+    ],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
