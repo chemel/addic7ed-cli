@@ -52,7 +52,8 @@ class Addic7edCommand extends Command
         foreach ($finder as $file) {
             $output->writeln("\n".'<info>[INFO]</info> Filename: '.$file->getFilename());
 
-            $subFilename = $file->getBasename($file->getExtension()).'srt';
+            $subBasename = $file->getBasename('.'.$file->getExtension());
+            $subFilename = $subBasename.'.srt';
             $subFullpath = $file->getPath().'/'.$subFilename;
 
             if (!$input->getOption('erase') && file_exists($subFullpath)) {
@@ -62,7 +63,14 @@ class Addic7edCommand extends Command
 
             $filenameParser = new FilenameParser($file->getFilename());
 
-            $results = $database->find($filenameParser->getTitle(), $language, $filenameParser->getSeason(), $filenameParser->getEpisode());
+            $searchTerm = $filenameParser->getTitle();
+
+            if (empty($searchTerm)) {
+                $output->writeln('<error>[ERROR]</error> Title not found.');
+                $searchTerm = $io->ask('Enter title:', $subBasename);
+            }
+
+            $results = $database->find($searchTerm, $language, $filenameParser->getSeason(), $filenameParser->getEpisode());
 
             $table = array();
             $urls = array();
