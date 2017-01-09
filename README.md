@@ -14,10 +14,17 @@ export PATH=~/.config/composer/vendor/bin:$PATH
 ## Usage
 
 ```bash
+# Find subtitles for all videos in the current directory
 addic7ed-cli get
+# Filter by extension
 addic7ed-cli get '*.mkv'
+# Select single file
 addic7ed-cli get Video.S01E01.mkv
+```
 
+### Options
+
+```bash
 # Non interactive mode (Download the best subtitle without asking)
 addic7ed-cli get -n
 
@@ -25,7 +32,7 @@ addic7ed-cli get -n
 addic7ed-cli get -e
 addic7ed-cli get --erase
 
-# Change language (Default: French)
+# Language filter (Default: French)
 addic7ed-cli get -l english
 # Show subtitles for all languages
 addic7ed-cli get -l all
