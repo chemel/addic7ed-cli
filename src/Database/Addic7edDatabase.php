@@ -38,7 +38,9 @@ class Addic7edDatabase
 
         $searchData = $this->scrapper->search($term);
 
-        if(!isset($searchData->showId)) return;
+        if (!isset($searchData->showId)) {
+            return;
+        }
 
         $showId = $searchData->showId;
 
@@ -77,13 +79,17 @@ class Addic7edDatabase
     {
         $showId = $this->getShowId($searchTerm);
 
-        if(!$showId) return array();
+        if (!$showId) {
+            return array();
+        }
 
         $showData = $this->getShowData($showId, $season);
 
         $results = array();
 
         $language = strtolower($language);
+
+        $id = 1;
 
         foreach ($showData as $show) {
             if ($show->episode != $episode) {
@@ -93,7 +99,11 @@ class Addic7edDatabase
                 continue;
             }
 
-            $results[] = $show;
+            $show->id = $id;
+
+            $results[$id] = $show;
+
+            $id++;
         }
 
         return $results;

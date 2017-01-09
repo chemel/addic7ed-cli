@@ -11,6 +11,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Alc\Addic7edCli\Component\FilenameParser;
 use Alc\Addic7edCli\Component\HttpClient;
+use Alc\Addic7edCli\Component\SubtitleSelector;
 use Alc\Addic7edCli\Database\Addic7edDatabase;
 
 class Addic7edCommand extends Command
@@ -47,6 +48,8 @@ class Addic7edCommand extends Command
 
         $database = new Addic7edDatabase($client);
 
+        $selector = new SubtitleSelector();
+
         $language = $input->getOption('lang');
 
         foreach ($finder as $file) {
@@ -70,17 +73,18 @@ class Addic7edCommand extends Command
                 $searchTerm = $io->ask('Enter title:', $subBasename);
             }
 
-            $results = $database->find($searchTerm, $language, $filenameParser->getSeason(), $filenameParser->getEpisode());
+            $subtitles = $database->find($searchTerm, $language, $filenameParser->getSeason(), $filenameParser->getEpisode());
+
+            if (empty($subtitles)) {
+                $output->writeln('<error>[ERROR]</> No Subtitle found.');
+                continue;
+            }
 
             $table = array();
-            $urls = array();
-            $id = 0;
 
-            foreach ($results as $show) {
-                $id++;
-
+            foreach ($subtitles as $show) {
                 $table[] = array(
-                    '#'.$id,
+                    '#'.$show->id,
                     $show->season,
                     $show->episode,
                     $show->title,
@@ -90,13 +94,6 @@ class Addic7edCommand extends Command
                     $show->hearingImpaired ? 'x' : '',
                     $show->hd ? 'x' : '',
                 );
-
-                $urls[$id] = $show->url;
-            }
-
-            if (empty($urls)) {
-                $output->writeln('<error>[ERROR]</> No Subtitle found.');
-                continue;
             }
 
             $io->table(array(
@@ -111,18 +108,20 @@ class Addic7edCommand extends Command
                 'HD',
             ), $table);
 
-            $choice = $io->ask('Select an id (0 to skip)', $id, function ($number) use ($urls) {
-                if (!is_numeric($number)) {
+            $id = $selector->suggest($subBasename, $subtitles);
+
+            $choice = $io->ask('Select an id (0 to skip)', $id, function ($id) use ($subtitles) {
+                if (!is_numeric($id)) {
                     throw new \RuntimeException('You must type an integer.');
                 }
-                if ($number == 0) {
+                if ($id == 0) {
                     return 0;
                 }
-                if (!isset($urls[$number])) {
+                if (!isset($subtitles[$id])) {
                     throw new \RuntimeException('You must type an id in the list.');
                 }
 
-                return $number;
+                return $id;
             });
 
             if ($choice == 0) {
@@ -130,7 +129,7 @@ class Addic7edCommand extends Command
                 continue;
             }
 
-            $url = $urls[$choice];
+            $url = $subtitles[$choice]->url;
 
             $output->writeln('<info>[INFO]</> Downloading sub #'.$choice.': '.$url);
 
