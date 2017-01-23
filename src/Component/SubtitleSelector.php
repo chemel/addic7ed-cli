@@ -36,7 +36,7 @@ class SubtitleSelector
             $matches = $this->versionMatch($title, $subtitle->version);
 
             if ($matches) {
-                $weight += $matches;
+                $weight += $matches * 2;
             }
 
             $weights[$subtitle->id] = $weight;
@@ -57,6 +57,9 @@ class SubtitleSelector
      */
     protected function versionMatch($title, $version)
     {
+        $title = strtolower($title);
+        $version = strtolower($version);
+
         $version = str_replace(array('.', '-', '/'), ' ', $version);
         $versionParts = explode(' ', $version);
 
