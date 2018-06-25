@@ -96,12 +96,43 @@ class Addic7edScrapper
 
         $data->results = array();
 
+        // Parse all results page
         $parser->filter('table.tabel a')->each(function (Crawler $node) use ($data) {
             $result = new \stdClass();
             $result->title = $node->text();
             $result->url = $this->baseUrl.'/'.$node->attr('href');
             $data->results[] = $result;
         });
+
+        // If show id not found, find an otherway to get it!
+        if(!isset($data->showUrl) && count($data->results) > 0) {
+            // Query as results, now find the show id
+            $result = $data->results[0];
+
+            $parser = $this->parse($result->url);
+
+            $showIds = $parser->filter('table.tabel70 a')->each(function (Crawler $node) use ($data) {
+                $href = $node->attr('href');
+                if(substr($href, 0, 6) == '/show/') {
+                    $showId = substr($href, 6);
+                    if(is_numeric($showId)) {
+                        return $showId;
+                    }
+                }
+            });
+
+            // Remove NULL values
+            $showIds = array_filter($showIds);
+
+            // Take the first id
+            foreach($showIds as $showId) {
+                if(is_numeric($showId)) {
+                    $data->showId = $showId;
+                    $data->showUrl = $this->baseUrl.'/show/'.$showId;
+                    break;
+                }
+            }
+        }
 
         return $data;
     }
