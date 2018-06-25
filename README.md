@@ -7,7 +7,7 @@ Download subtitles from www.addic7ed.com
 ```bash
 composer global require alc/addic7ed-cli
 
-# Make sure you have export PATH in your ~/bashrc
+# Make sure you have export PATH in your ~/.bashrc
 export PATH=~/.config/composer/vendor/bin:$PATH
 ```
 
