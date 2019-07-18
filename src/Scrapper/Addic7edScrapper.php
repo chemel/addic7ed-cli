@@ -8,7 +8,7 @@ class Addic7edScrapper
 {
     protected $client;
 
-    protected $baseUrl = 'http://www.addic7ed.com';
+    protected $baseUrl = 'https://www.addic7ed.com';
 
     /**
      * Constructor

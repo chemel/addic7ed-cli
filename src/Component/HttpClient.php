@@ -26,7 +26,7 @@ class HttpClient
         $options = array(
             'headers' => array(
                 'User-Agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0',
-                'Referer' => 'http://www.addic7ed.com'
+                'Referer' => 'https://www.addic7ed.com'
             ),
             // 'connect_timeout' => 15,
             // 'timeout' => 30,
